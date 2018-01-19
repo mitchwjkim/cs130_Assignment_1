@@ -33,9 +33,10 @@ Object* Render_World::Closest_Intersection(const Ray& ray,Hit& hit)
 	for(Object* object : objects)
 	{
 		std::vector<Hit> v_hit;
+		object ->Intersection(ray, v_hit);
 		
-		if(object->Intersection(ray, v_hit)){
-		    for(int i = 0; i <v_hit.size(); i++) {
+		if(!v_hit.empty()){
+		    for(unsigned int i = 0; i < v_hit.size(); i++) {
 		        if (v_hit.at(i).t < min_t && v_hit.at(i).t > small_t) {
 		            hit = v_hit.at(i);
 		            closest_object = object;
