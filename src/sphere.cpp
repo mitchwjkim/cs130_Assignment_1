@@ -12,7 +12,7 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
     u = ray.direction;
     center = this->center;
     v = w - center;
-    
+    double r = this->radius;
     
     double a, b, c;
     a = dot(u, u);
