@@ -28,7 +28,6 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
 
         if((world.enable_shadows && (l.magnitude() <= r_shadow.Point(hits.t).magnitude()) 
         || (obj == NULL && world.enable_shadows) || !world.enable_shadows)) {
-            
             double dist = (intersection_point - world.lights.at(i)->position).magnitude_squared();
 
             light_color = world.lights.at(i)->Emitted_Light(ray) / dist;

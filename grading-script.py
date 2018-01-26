@@ -4,7 +4,7 @@
 
 import os,re,sys,shutil,random,subprocess,threading
 
-test_dir = 'tests'
+test_dir = 'test'
 if len(sys.argv) > 1:
   test_dir=sys.argv[1]
 
