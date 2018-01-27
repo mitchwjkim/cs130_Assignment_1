@@ -39,7 +39,6 @@ Intersection(const Ray& ray, std::vector<Hit>& hits) const
         }
     }
 
-    return false;
 }
 
 vec3 Plane::

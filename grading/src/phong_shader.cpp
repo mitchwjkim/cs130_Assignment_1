@@ -21,13 +21,20 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
     for(uint i = 0; i < world.lights.size(); i++) {
         l = world.lights.at(i)->position - intersection_point;
         Ray r_shadow(intersection_point, l.normalized());
-        r_shadow.endpoint = r_shadow.Point(.001);
+        // r_shadow.endpoint = r_shadow.Point(.001);
 
         Hit hits;
         Object *obj = world.Closest_Intersection(r_shadow, hits);
 
-        if((world.enable_shadows && (l.magnitude() <= r_shadow.Point(hits.t).magnitude()) 
-        || (obj == NULL && world.enable_shadows) || !world.enable_shadows)) {
+       // if((world.enable_shadows) && ((l - intersection_point).magnitude() <= (r_shadow.Point(hits.t) - intersection_point).magnitude()) 
+        //|| (obj == NULL && world.enable_shadows) 
+        //|| (!world.enable_shadows)) 
+        if(!world.enable_shadows 
+           || (obj == NULL && world.enable_shadows)
+           || ((l.normalized() - intersection_point).magnitude() 
+              <= (r_shadow.Point(hits.t) - intersection_point).magnitude() && world.enable_shadows)) 
+        {
+
             double dist = (intersection_point - world.lights.at(i)->position).magnitude_squared();
 
             light_color = world.lights.at(i)->Emitted_Light(ray) / dist;
