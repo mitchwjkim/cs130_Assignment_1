@@ -21,6 +21,7 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
     for(uint i = 0; i < world.lights.size(); i++) {
         l = world.lights.at(i)->position - intersection_point;
         Ray r_shadow(intersection_point, l.normalized());
+        r_shadow.endpoint = r_shadow.Point(0.0001);
 
         Hit hits;
         Object *obj = world.Closest_Intersection(r_shadow, hits);

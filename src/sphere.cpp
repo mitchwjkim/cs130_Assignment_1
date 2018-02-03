@@ -26,10 +26,8 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
         if(disc == 0) {
             double t = (-b / (2 * a));
             if(t > 0) {
-                hit1 = {this, 0, false};
-                hit2 = {this, t, true};
-                hits.push_back(hit1);
-                hits.push_back(hit2);
+                Hit m_hit = {this, t, true};
+                hits.push_back(m_hit);
             }
         }
         else {
