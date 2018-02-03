@@ -38,12 +38,12 @@ Shade_Surface(const Ray& ray, const vec3& intersection_point,
         }
 
         double n_frac = ni / nr;
-        double cos_i = (dot(-1.0 * ray.direction, n) / ray.direction.magnitude());
-        double cos_r = pow(1 - n_frac * n_frac * (1 - pow(cos_i, 2.0)), 0.5);
+        double cos_i = (dot(-1.0 * ray.direction, n) /*/ ray.direction.magnitude()*/);
+        double cos_r = sqrt(1.0 - n_frac * n_frac * (1.0 - pow(cos_i, 2.0)));
 
-        if((1 - n_frac * n_frac * (1 - pow(cos_i, 2))) < 0) {
-            reflectance_ratio = 1;
-            refraction_color = vec3(0, 0, 0);
+        if((1 - n_frac * n_frac * (1.0 - pow(cos_i, 2.0))) < 0.0) {
+            reflectance_ratio = 1.0;
+            refraction_color = vec3(0.0, 0.0, 0.0);
         }
         else { 
             vec3 t = n_frac * (ray.direction.normalized() - dot(ray.direction.normalized(), n) * n) - (cos_r * n);
@@ -65,10 +65,10 @@ Shade_Surface(const Ray& ray, const vec3& intersection_point,
         // - Cast Reflection Ray andd get color
         //
 
-        vec3 r = ray.direction - 2.0 * dot(ray.direction, same_side_normal) * same_side_normal;
+        vec3 r = ray.direction.normalized() - 2.0 * dot(ray.direction.normalized(), same_side_normal) * same_side_normal;
 
         Ray r_reflected(intersection_point, r);
-        r_reflected.endpoint = r_reflected.Point(0.0001);
+        //r_reflected.endpoint = r_reflected.Point(0.0001);
 
         reflection_color = shader->world.Cast_Ray(r_reflected, recursion_depth);
     }
@@ -79,7 +79,7 @@ Shade_Surface(const Ray& ray, const vec3& intersection_point,
     //                  reflectance_ratio
     //
 
-    color = reflectance_ratio * reflection_color + (1 - reflectance_ratio) * refraction_color;
+    color = reflectance_ratio * reflection_color + (1.0 - reflectance_ratio) * refraction_color;
 
     return color;
 }
